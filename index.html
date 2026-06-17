@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Firm — Your AI Property-Dealing Team</title>
+<meta name="description" content="The Firm is an AI team of four agents that source, underwrite, and track UK property deals — working under you, on Telegram. Paste a property, get a buy/no-buy verdict and the most you should pay." />
+<meta property="og:title" content="The Firm — Your AI Property-Dealing Team" />
+<meta property="og:description" content="Four AI agents that find, analyse and track UK property deals — on Telegram. You give the orders." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0a0c10; --bg2:#0e1117; --panel:#14181f; --panel2:#191e27;
+    --line:#222834; --ink:#eef2f7; --muted:#9aa6b6; --faint:#67748a;
+    --teal:#2dd4bf; --blue:#3b82f6; --gold:#f6c560; --green:#34d399; --red:#fb7185; --amber:#fbbf24;
+    --grad:linear-gradient(120deg,#2dd4bf 0%,#3b82f6 60%,#8b5cf6 100%);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .eyebrow{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);font-weight:600}
+  .serif{font-family:Fraunces,serif}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(10,12,16,.72);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-weight:800;letter-spacing:.14em;font-size:.95rem;display:flex;align-items:center;gap:9px}
+  .logo .dot{width:10px;height:10px;border-radius:50%;background:var(--grad);box-shadow:0 0 14px #2dd4bf88}
+  .nav-links{display:flex;gap:26px;align-items:center;font-size:.92rem;color:var(--muted)}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:600;font-size:.92rem;transition:.2s;border:1px solid transparent;cursor:pointer}
+  .btn-primary{background:var(--grad);color:#04121a;box-shadow:0 6px 26px #2dd4bf33}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 32px #3b82f644}
+  .btn-ghost{border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+  @media(max-width:720px){.nav-links a:not(.btn){display:none}}
+
+  /* HERO */
+  header{position:relative;padding:96px 0 70px;text-align:center;overflow:hidden}
+  header:before{content:"";position:absolute;inset:0;background:
+    radial-gradient(620px 320px at 50% -8%,#2dd4bf22,transparent 70%),
+    radial-gradient(700px 360px at 85% 10%,#8b5cf61f,transparent 70%);pointer-events:none}
+  header:after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;opacity:.15;mask:radial-gradient(560px 380px at 50% 0%,#000,transparent 75%);pointer-events:none}
+  header .wrap{position:relative;z-index:2}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;font-size:.82rem;color:var(--muted);background:var(--panel);margin-bottom:26px}
+  .pill .live{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  h1{font-size:clamp(2.4rem,6vw,4.3rem);line-height:1.05;font-weight:800;letter-spacing:-.02em;margin-bottom:22px}
+  .sub{font-size:clamp(1.05rem,2.4vw,1.3rem);color:var(--muted);max-width:640px;margin:0 auto 34px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .hero-meta{margin-top:40px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap;color:var(--faint);font-size:.88rem}
+  .hero-meta b{color:var(--ink)}
+
+  /* SECTIONS */
+  section{padding:74px 0;position:relative}
+  .sec-head{text-align:center;max-width:660px;margin:0 auto 50px}
+  .sec-head h2{font-size:clamp(1.8rem,4vw,2.7rem);font-weight:800;letter-spacing:-.02em;margin:12px 0 14px}
+  .sec-head p{color:var(--muted);font-size:1.05rem}
+
+  /* TEAM */
+  .team{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:680px){.team{grid-template-columns:1fr}}
+  .agent{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden;transition:.25s}
+  .agent:hover{border-color:#33405380;transform:translateY(-3px)}
+  .agent .ico{font-size:2rem;width:58px;height:58px;display:grid;place-items:center;border-radius:14px;background:var(--panel2);border:1px solid var(--line);margin-bottom:16px}
+  .agent h3{font-size:1.25rem;font-weight:700;display:flex;align-items:center;gap:10px}
+  .agent .role{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:600;margin:2px 0 12px}
+  .agent p{color:var(--muted);font-size:.96rem}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;position:relative}
+  .step .n{font-family:Fraunces,serif;font-size:2.4rem;font-weight:600;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+  .step h3{margin:12px 0 8px;font-size:1.15rem}
+  .step p{color:var(--muted);font-size:.95rem}
+
+  /* DEMO CHAT */
+  .demo{background:linear-gradient(180deg,var(--bg2),var(--bg));border:1px solid var(--line);border-radius:26px;padding:26px;max-width:520px;margin:0 auto;box-shadow:0 30px 80px #0008}
+  .tg-head{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:18px}
+  .tg-ava{width:44px;height:44px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-size:1.2rem}
+  .tg-head .nm{font-weight:700}.tg-head .st{font-size:.78rem;color:var(--teal)}
+  .bubble{padding:13px 16px;border-radius:16px;margin-bottom:12px;font-size:.93rem;max-width:88%}
+  .me{background:#1f6feb;color:#fff;margin-left:auto;border-bottom-right-radius:5px}
+  .bot{background:var(--panel2);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .card-v{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:6px;background:var(--bg)}
+  .card-v .top{padding:12px 14px;background:linear-gradient(90deg,#34d39922,transparent);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .verdict{font-weight:800;color:var(--green);font-size:.92rem}
+  .card-v .rows{padding:12px 14px;display:grid;gap:7px;font-size:.86rem}
+  .row{display:flex;justify-content:space-between}.row .k{color:var(--faint)}.row .v{font-weight:600}
+  .big{color:var(--gold)}
+  .chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .chip{font-size:.78rem;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--muted)}
+
+  /* FEATURES */
+  .feat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:760px){.feat{grid-template-columns:1fr}}
+  .fcard{padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+  .fcard .fi{font-size:1.5rem;margin-bottom:12px}
+  .fcard h4{font-size:1.05rem;margin-bottom:7px}
+  .fcard p{color:var(--muted);font-size:.92rem}
+
+  /* SPLIT (halal/cash) */
+  .split{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+  @media(max-width:820px){.split{grid-template-columns:1fr;gap:26px}}
+  .checklist{list-style:none;display:grid;gap:14px}
+  .checklist li{display:flex;gap:13px;align-items:flex-start;color:var(--muted)}
+  .checklist .ck{flex:none;width:24px;height:24px;border-radius:50%;background:#34d39918;color:var(--green);display:grid;place-items:center;font-size:.8rem;border:1px solid #34d39940;margin-top:2px}
+  .checklist b{color:var(--ink);font-weight:600}
+
+  /* ROADMAP */
+  .road{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:820px){.road{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.road{grid-template-columns:1fr}}
+  .ph{padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  .ph .tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:10px;display:inline-block}
+  .ph.live .tag{color:var(--green)}.ph.soon .tag{color:var(--amber)}.ph.next .tag{color:var(--faint)}
+  .ph h4{font-size:1rem;margin-bottom:6px}.ph p{font-size:.86rem;color:var(--muted)}
+
+  /* CTA BAND */
+  .band{margin:30px auto;max-width:1080px;border:1px solid var(--line);border-radius:24px;padding:54px 30px;text-align:center;background:
+    radial-gradient(500px 200px at 50% 0%,#2dd4bf1f,transparent 70%),var(--panel)}
+  .band h2{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;margin-bottom:14px}
+  .band p{color:var(--muted);margin-bottom:26px}
+
+  footer{border-top:1px solid var(--line);padding:36px 0;color:var(--faint);font-size:.85rem;text-align:center}
+  .reveal{opacity:0;transform:translateY(22px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span> THE&nbsp;FIRM</div>
+    <div class="nav-links">
+      <a href="#team">The Team</a>
+      <a href="#how">How it works</a>
+      <a href="#deal">See a deal</a>
+      <a class="btn btn-primary" href="https://t.me/Feyazagentbot" target="_blank" rel="noopener">Open on Telegram →</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <span class="pill"><span class="live"></span> Live now · runs 24/7 on Telegram</span>
+    <h1>Your own <span class="grad-text">property-dealing team</span>.<br/>You give the orders.</h1>
+    <p class="sub">The Firm is a team of four AI agents that <b>find, analyse and track</b> UK property deals — working under you, inside one Telegram chat. Paste a property; get a buy/no-buy verdict and the most you should pay.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://t.me/Feyazagentbot" target="_blank" rel="noopener">💬 Talk to your team</a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+    <div class="hero-meta">
+      <span><b>4</b> specialist agents</span>
+      <span><b>Cash-buyer</b> built · no riba</span>
+      <span><b>Real</b> Land Registry data</span>
+      <span><b>You</b> always decide</span>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section style="padding-top:30px">
+  <div class="wrap sec-head reveal">
+    <span class="eyebrow">The idea</span>
+    <h2>One message. A whole back office goes to work.</h2>
+    <p>Sourcing, number-crunching, chasing agents, keeping track — it eats a dealer's day. The Firm hands each of those jobs to a dedicated agent. You stay the boss: you set the rules, you make the call, you press send. They do the legwork.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The team</span>
+      <h2>Four agents, one chat</h2>
+      <p>Each has a single job and does it well. Talk to them in plain English — or a voice note.</p>
+    </div>
+    <div class="team">
+      <div class="agent reveal">
+        <div class="ico">🔎</div>
+        <h3>Scout</h3>
+        <div class="role">Sourcing</div>
+        <p>Reads any property you feed it — a pasted link, a listing, or a forwarded estate-agent email — and pulls out the facts that matter: address, price, condition, tenure, the lot.</p>
+      </div>
+      <div class="agent reveal">
+        <div class="ico">📊</div>
+        <h3>Analyst</h3>
+        <div class="role">Underwriting</div>
+        <p>The engine. Pulls real sold prices from HM Land Registry, works out resale value, refurb cost and your true profit — then gives a verdict and the <b>maximum you should pay</b>.</p>
+      </div>
+      <div class="agent reveal">
+        <div class="ico">🤝</div>
+        <h3>Negotiator</h3>
+        <div class="role">Comms</div>
+        <p>Drafts your offers, agent emails, chasers and counter-offers — leading with your edge as a cash, chain-free buyer. It writes; you copy, check and send. It never reveals your ceiling.</p>
+      </div>
+      <div class="agent reveal">
+        <div class="ico">🗂️</div>
+        <h3>Clerk</h3>
+        <div class="role">Tracking</div>
+        <p>Keeps every deal moving through your pipeline, remembers the details, sets reminders, and sends you a <b>morning briefing</b> so nothing slips.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how" style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>From a link to a decision in seconds</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="n">01</div><h3>Send a property</h3><p>Paste a link, type an address with a price, or forward an agent's email into the chat. A voice note works too.</p></div>
+      <div class="step reveal"><div class="n">02</div><h3>The team works it</h3><p>Scout reads it, the Analyst underwrites it against real local sold prices and your buy-box, the Clerk files it.</p></div>
+      <div class="step reveal"><div class="n">03</div><h3>You get a verdict</h3><p>A clear scorecard: buy or walk, the max to pay, profit and ROI — with the comparables behind it. You decide.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEAL DEMO -->
+<section id="deal">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">See a deal</span>
+      <h2>What lands in your chat</h2>
+      <p>A real example — exactly how the Analyst replies.</p>
+    </div>
+    <div class="demo reveal">
+      <div class="tg-head">
+        <div class="tg-ava">🏠</div>
+        <div><div class="nm">The Firm</div><div class="st">Scout · Analyst · Negotiator · Clerk</div></div>
+      </div>
+      <div class="bubble me">3-bed mid terrace, BD1 5BN Bradford, asking £85,000, needs full refurb, chain-free cash sale</div>
+      <div class="bubble bot">
+        📊 <b>Analyst</b> — here's the read:
+        <div class="card-v">
+          <div class="top"><span>12-style terrace · BD1 5BN</span><span class="verdict">🟢 STRONG FLIP</span></div>
+          <div class="rows">
+            <div class="row"><span class="k">Max you should pay</span><span class="v big">£72,000</span></div>
+            <div class="row"><span class="k">After-repair value</span><span class="v">£135,000</span></div>
+            <div class="row"><span class="k">Est. refurb</span><span class="v">£34,000</span></div>
+            <div class="row"><span class="k">Projected profit</span><span class="v" style="color:var(--green)">£18,400</span></div>
+            <div class="row"><span class="k">ROI on cash</span><span class="v" style="color:var(--green)">17%</span></div>
+            <div class="row"><span class="k">Based on</span><span class="v">9 local sold comps</span></div>
+          </div>
+        </div>
+        <div class="chips"><span class="chip">🤝 Draft offer</span><span class="chip">✉️ Email agent</span><span class="chip">🗂️ Save to pipeline</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILT FOR -->
+<section style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap split">
+    <div class="reveal">
+      <span class="eyebrow">Built for the way you deal</span>
+      <h2 style="font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;margin:12px 0 18px">A cash buyer's edge, baked in</h2>
+      <p style="color:var(--muted)">The Firm is designed around how you actually operate — fast, in cash, on your terms — not a generic property app.</p>
+    </div>
+    <ul class="checklist reveal">
+      <li><span class="ck">✓</span><span><b>Cash & chain-free first.</b> Every offer leads with your speed and certainty — the reason agents take you seriously.</span></li>
+      <li><span class="ck">✓</span><span><b>Halal by design.</b> No mortgages, no interest, no riba — the model assumes cash throughout.</span></li>
+      <li><span class="ck">✓</span><span><b>You always decide.</b> The team recommends and drafts; it never sends or commits anything on its own.</span></li>
+      <li><span class="ck">✓</span><span><b>Real, free data.</b> Valuations rest on official HM Land Registry sold prices — not guesswork.</span></li>
+      <li><span class="ck">✓</span><span><b>Private & locked.</b> Your bot answers only to you. Nobody else can use it.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">What you can do</span><h2>Just talk to it</h2></div>
+    <div class="feat">
+      <div class="fcard reveal"><div class="fi">🧮</div><h4>Underwrite any deal</h4><p>"What do you think of this?" with a link or address — get the full scorecard back.</p></div>
+      <div class="fcard reveal"><div class="fi">📋</div><h4>Run your pipeline</h4><p>"Show my deals." Tap one to update its stage, add notes, or set a reminder.</p></div>
+      <div class="fcard reveal"><div class="fi">✍️</div><h4>Draft the comms</h4><p>"Draft an offer" or "email the agent" — ready to copy and send in your name.</p></div>
+      <div class="fcard reveal"><div class="fi">🎯</div><h4>Set your buy-box</h4><p>"Set min profit to £30k and ROI to 25%." The Analyst judges every deal by your rules.</p></div>
+      <div class="fcard reveal"><div class="fi">🎙️</div><h4>Use your voice</h4><p>On the move? Send a voice note and the team gets to work.</p></div>
+      <div class="fcard reveal"><div class="fi">☀️</div><h4>Morning briefing</h4><p>A daily digest of your live deals and anything that needs you — before your first coffee.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section style="background:var(--bg2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">Where it's heading</span><h2>Live today — growing fast</h2></div>
+    <div class="road">
+      <div class="ph live reveal"><span class="tag">● Live</span><h4>The core team</h4><p>Source, underwrite, draft, track — all working now.</p></div>
+      <div class="ph soon reveal"><span class="tag">◑ Next</span><h4>Email forwarding & voice</h4><p>Forward agent emails to a dedicated inbox; voice notes on tap.</p></div>
+      <div class="ph soon reveal"><span class="tag">◑ Next</span><h4>Sharper valuations</h4><p>Floor-area & energy data folded into every estimate.</p></div>
+      <div class="ph next reveal"><span class="tag">○ Later</span><h4>Auto-sourcing</h4><p>Agents hunt the whole market for deals that fit your box.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="band reveal">
+  <h2>Your team is on the clock.</h2>
+  <p>Open Telegram, send a property, and watch them work.</p>
+  <a class="btn btn-primary" href="https://t.me/Feyazagentbot" target="_blank" rel="noopener" style="font-size:1rem;padding:14px 26px">💬 Open The Firm on Telegram →</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="logo" style="justify-content:center;margin-bottom:10px"><span class="dot"></span> THE FIRM</div>
+    <p>An agentic property-dealing team · UK cash flip &amp; trade · Recommend-only — the boss decides.</p>
+    <p style="margin-top:8px;color:#3a4452">Private &amp; bespoke. Built to work under you.</p>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3)*70+'ms';io.observe(el)});
+</script>
+</body>
+</html>
